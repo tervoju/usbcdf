@@ -10,7 +10,10 @@ atm_surface_pressure = 1.101325
 lattitude = 59.8443631
 
 # this is the device id connected through usb - serial convertion box
-#ser = serial.Serial("/dev/ttyUSB0", baudrate=9600, timeout=3.0)
+# ser = serial.Serial("/dev/ttyUSB0", baudrate=9600, timeout=3.0)
+
+
+
 # $  A  Q  C  T  D  
 # in hex:
 #  24 41 51 43 54 44 2c 32 33 2e 32 34 382c30312e3031302c30302e3030342a37410d0a
@@ -44,6 +47,7 @@ def read_ctd_values(ctd_response):
 
 # depth calculation based on previous algorithms in file ctd.c
 # includes few magic numbers. TBD clarified
+# TODO: magic numbers
 
 def calc_depth(pres, lat ):
     global atm_surface_pressure
@@ -52,7 +56,7 @@ def calc_depth(pres, lat ):
     pres = ( pres - atm_surface_pressure ) * 10 # from bar absolute pressure to decibar gauge pressure
 	
     if pres < 0:
-        return 0
+        return -1
 
 	# FIXME: assume much lower salinity
     specific_volume = pres * ( 9.72659 + pres * ( -2.2512e-5 + pres * ( 2.279e-10 + pres * -1.82e-15 ) ) )
