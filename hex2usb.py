@@ -9,8 +9,6 @@ import math
 atm_surface_pressure = 1.101325
 lattitude = 59.8443631
 
-
-
 # this is the device id connected through usb - serial convertion box
 #ser = serial.Serial("/dev/ttyUSB0", baudrate=9600, timeout=3.0)
 # $  A  Q  C  T  D  
