@@ -5,14 +5,13 @@ import binascii
 import inspect
 import codecs
 import math
+import pynmea2
 
 atm_surface_pressure = 1.101325
 lattitude = 59.8443631
 
 # this is the device id connected through usb - serial convertion box
 # ser = serial.Serial("/dev/ttyUSB0", baudrate=9600, timeout=3.0)
-
-
 
 # $  A  Q  C  T  D  
 # in hex:
@@ -36,7 +35,7 @@ def read_ctd_values(ctd_response):
         tmp_conductivity = values[3].replace('\r', '')
         if tmp_conductivity.find('*'):
             split_conductivity = tmp_conductivity.split('*')
-            conductivity = float(split_conductivity[0])*float(split_conductivity[1])
+            conductivity = float(split_conductivity[0])
         else:
             conductivity = 0.1 # has to be checked the values
         return 0, temperature, pressure, conductivity
@@ -111,6 +110,7 @@ def send_ctd(cmd_string):
 
 def test_ctd_message():
     global lattitude
+
     ctd_string = codecs.decode(b'$AQCTD,23.268,01.012,-00.000*53\r')
     res,temperature, pressure, conductivity = read_ctd_values(ctd_string)
     if res == -1:
@@ -125,7 +125,6 @@ def test_ctd_message():
 
 def main():
     #send_ctd([0xff,0xff,0xff,0xff,0xaa,0x00,0x90,0x00,0x00,0x00,0x00,0x00,0x00,0x6c])
-
     test_ctd_message()
 
 if __name__=="__main__":
